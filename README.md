@@ -6,6 +6,8 @@
 - yarn add react-router-dom
 - yarn add react-redux
 - yarn add @reduxjs/toolkit
+- yarn add redux-logger
+- yarn add -D @types/redux-logger
 
 ```js
 // vite.config.ts
@@ -15,7 +17,35 @@ server: {
 ```
 
 ```
+1.
+configureStore({
+  reducer: {},
+});
 
-configureStore({...}) ==>
+2.
+createSlice({
+  name: "counter",
+  initialState,
+  reducers: {
+    increment: (state) => {    },
+    decrement: (state) => {    },
+  },
+});
+
+3.
+configureStore({
+  reducer: {
+    counter: counterReducer,
+  },
+});
+```
 
 ```
+// typescript type for read/write
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+```
+
+- typescript type for read/write from store... (RootState & AppDispatch)
+- typescript hook for read/write from store... (useAppDispatch & useAppSelector)
+- custom logger

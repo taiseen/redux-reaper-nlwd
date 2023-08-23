@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+type TCounterState = {
+  value: number;
+};
+
+const initialState: TCounterState = {
   value: 0,
 };
 
@@ -14,10 +19,12 @@ export const counterSlice = createSlice({
     decrement: (state) => {
       state.value -= 1;
     },
+    incrementByAmount: (state, action: PayloadAction<number>) => {
+      state.value += action.payload;
+    },
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { increment, decrement } = counterSlice.actions;
-
+// redux toolkit - automatically create (actions + reducer) for us...
+export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 export default counterSlice.reducer;
