@@ -49,3 +49,10 @@ export type AppDispatch = typeof store.dispatch;
 - typescript type for read/write from store... (RootState & AppDispatch)
 - typescript hook for read/write from store... (useAppDispatch & useAppSelector)
 - custom logger
+
+# Learning context:
+
+- redux store
+- reducer slice
+- redux hooks for read/write
+- middleware
