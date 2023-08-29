@@ -1,18 +1,30 @@
-import { IProduct } from '@/types/globalTypes';
+import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
-type TProduct = {
-  product: IProduct[];
-  total: number;
+type TProductFilter = {
+  status: boolean;
+  priceRange: number;
 };
 
-const initialState: TProduct = {
-  product: [],
-  total: 0,
+const initialState: TProductFilter = {
+  status: false,
+  priceRange: 150,
 };
 
 const productSlice = createSlice({
-  name: 'product',
+  name: 'productFilter',
   initialState,
-  reducers: {},
+  reducers: {
+    toggleStage: (state) => {
+      state.status = !state.status;
+    },
+    setPriceRange: (state, action: PayloadAction<number>) => {
+      state.priceRange = action.payload;
+    },
+  },
 });
+
+const { reducer, actions } = productSlice;
+
+export const { toggleStage, setPriceRange } = actions;
+export default reducer;

@@ -2,12 +2,12 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { IProduct } from '@/types/globalTypes';
 import { createSlice } from '@reduxjs/toolkit';
 
-type TProduct = {
+type TCart = {
   product: IProduct[];
   total: number;
 };
 
-const initialState: TProduct = {
+const initialState: TCart = {
   product: [],
   total: 0,
 };

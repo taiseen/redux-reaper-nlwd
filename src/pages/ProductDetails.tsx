@@ -1,11 +1,15 @@
 import ProductReview from '@/components/ProductReview';
+import { addToCart } from '@/redux/feature/cart/cartSlice';
+import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { IProduct } from '@/types/globalTypes';
-import { useEffect, useState } from 'react';
+import { useAppDispatch } from '@/redux/hook';
 import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export default function ProductDetails() {
   const { id } = useParams();
+  const dispatch = useAppDispatch();
 
   //! Temporary code, should be replaced with redux
   const [data, setData] = useState<IProduct[]>([]);
@@ -15,9 +19,16 @@ export default function ProductDetails() {
       .then((data) => setData(data));
   }, []);
 
-  const product = data?.find((item) => item._id === Number(id));
-
+  const product = data?.find((item: IProduct) => item._id === Number(id));
   //! Temporary code ends here
+
+  const handleAddProduct = (product: IProduct) => {
+    dispatch(addToCart(product));
+
+    toast({
+      description: 'Product Added',
+    });
+  };
 
   return (
     <>
@@ -25,17 +36,25 @@ export default function ProductDetails() {
         <div className="w-[50%]">
           <img src={product?.image} alt="" />
         </div>
+
         <div className="w-[50%] space-y-3">
           <h1 className="text-3xl font-semibold">{product?.name}</h1>
           <p className="text-xl">Rating: {product?.rating}</p>
+
           <ul className="space-y-1 text-lg">
             {product?.features?.map((feature) => (
-              <li key={feature}>{feature}</li>
+              <li key={feature}>
+                <strong>*</strong> {feature},
+              </li>
             ))}
           </ul>
-          <Button>Add to cart</Button>
+
+          <Button onClick={() => handleAddProduct(product!)}>
+            Add to cart
+          </Button>
         </div>
       </div>
+
       <ProductReview />
     </>
   );
