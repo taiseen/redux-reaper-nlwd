@@ -1,26 +1,28 @@
 import ProductReview from '@/components/ProductReview';
+import { useGetSingleProductQuery } from '@/redux/api/apiSlice';
 import { addToCart } from '@/redux/feature/cart/cartSlice';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { IProduct } from '@/types/globalTypes';
 import { useAppDispatch } from '@/redux/hook';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
 export default function ProductDetails() {
   const { id } = useParams();
   const dispatch = useAppDispatch();
 
-  //! Temporary code, should be replaced with redux
-  const [data, setData] = useState<IProduct[]>([]);
-  useEffect(() => {
-    fetch('../../public/data.json')
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
+  const { data: product, error, isLoading } = useGetSingleProductQuery(id);
 
-  const product = data?.find((item: IProduct) => item._id === Number(id));
-  //! Temporary code ends here
+  // //! Temporary code, should be replaced with redux
+  // const [data, setData] = useState<IProduct[]>([]);
+  // useEffect(() => {
+  //   fetch('../../public/data.json')
+  //     .then((res) => res.json())
+  //     .then((data) => setData(data));
+  // }, []);
+
+  // const product = data?.find((item: IProduct) => item._id === Number(id));
+  // //! Temporary code ends here
 
   const handleAddProduct = (product: IProduct) => {
     dispatch(addToCart(product));
@@ -29,6 +31,10 @@ export default function ProductDetails() {
       description: 'Product Added',
     });
   };
+
+  if (isLoading) {
+    return <p>Loading... 🔴🔴🔴</p>;
+  }
 
   return (
     <>
@@ -42,7 +48,7 @@ export default function ProductDetails() {
           <p className="text-xl">Rating: {product?.rating}</p>
 
           <ul className="space-y-1 text-lg">
-            {product?.features?.map((feature) => (
+            {product?.features?.map((feature: string) => (
               <li key={feature}>
                 <strong>*</strong> {feature},
               </li>

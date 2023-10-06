@@ -1,11 +1,12 @@
 import ProductCard from '@/components/ProductCard';
+import { useGetAllProductsQuery } from '@/redux/api/apiSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { useToast } from '@/components/ui/use-toast';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { IProduct } from '@/types/globalTypes';
 import { Label } from '@/components/ui/label';
-import { useEffect, useState } from 'react';
+import { Key } from 'react';
 import {
   setPriceRange,
   toggleStage,
@@ -15,13 +16,16 @@ export default function Products() {
   const dispatch = useAppDispatch();
   const { status, priceRange } = useAppSelector((state) => state.product);
 
-  const [data, setData] = useState<IProduct[]>([]);
+  // 🟢🟢🟢 new way of data fetching - by network call...
+  const { data, error, isLoading } = useGetAllProductsQuery(undefined);
 
-  useEffect(() => {
-    fetch('./data.json')
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
+  // 🔴🔴🔴 old way of data fetching - by network call...
+  // const [data, setData] = useState<IProduct[]>([]);
+  // useEffect(() => {
+  //   fetch('./data.json')
+  //     .then((res) => res.json())
+  //     .then((data) => setData(data));
+  // }, []);
 
   const { toast } = useToast();
 
@@ -32,13 +36,20 @@ export default function Products() {
   let productsData;
 
   if (status) {
-    productsData = data.filter(
-      (item) => item.status === true && item.price < priceRange
+    productsData = data?.data.filter(
+      (item: { status: boolean; price: number }) =>
+        item.status === true && item.price < priceRange
     );
   } else if (priceRange > 0) {
-    productsData = data.filter((item) => item.price < priceRange);
+    productsData = data?.data.filter(
+      (item: { price: number }) => item.price < priceRange
+    );
   } else {
-    productsData = data;
+    productsData = data?.data;
+  }
+
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
 
   return (
@@ -74,7 +85,7 @@ export default function Products() {
       </div>
 
       <div className="col-span-9 grid grid-cols-3 gap-10 pb-20">
-        {productsData?.map((product, idx) => (
+        {productsData?.map((product: IProduct, idx: Key | null | undefined) => (
           <ProductCard key={idx} product={product} />
         ))}
       </div>
