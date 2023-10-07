@@ -1,5 +1,5 @@
 import ProductReview from '@/components/ProductReview';
-import { useGetSingleProductQuery } from '@/redux/api/apiSlice';
+import { useGetSingleProductQuery } from '@/redux/feature/product/productApi';
 import { addToCart } from '@/redux/feature/cart/cartSlice';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -61,7 +61,7 @@ export default function ProductDetails() {
         </div>
       </div>
 
-      <ProductReview />
+      <ProductReview id={id!} />
     </>
   );
 }

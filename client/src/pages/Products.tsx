@@ -1,5 +1,5 @@
 import ProductCard from '@/components/ProductCard';
-import { useGetAllProductsQuery } from '@/redux/api/apiSlice';
+import { useGetAllProductsQuery } from '@/redux/feature/product/productApi';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { useToast } from '@/components/ui/use-toast';
 import { Slider } from '@/components/ui/slider';
@@ -16,7 +16,7 @@ export default function Products() {
   const dispatch = useAppDispatch();
   const { status, priceRange } = useAppSelector((state) => state.product);
 
-  // 🟢🟢🟢 new way of data fetching - by network call...
+  // 🟢🟢🟢 new way of data fetching - by GET network call...
   const { data, error, isLoading } = useGetAllProductsQuery(undefined);
 
   // 🔴🔴🔴 old way of data fetching - by network call...
