@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import productReducer from './feature/product/productSlice';
 import counterReducer from './feature/counterSlice';
 import cartReducer from './feature/cart/cartSlice';
+import userReducer from './feature/user/userSlice';
 import api from './api/apiSlice';
 // import logger from './middleware/logger';
 // import logger from "redux-logger";
@@ -11,6 +12,8 @@ const store = configureStore({
     counter: counterReducer, // sync task
     product: productReducer, // sync task
     cart: cartReducer, // sync task
+
+    user: userReducer, // async task...
 
     [api.reducerPath]: api.reducer, // async task || network calling...
   },

@@ -7,7 +7,7 @@ const api = createApi({
 
     tagTypes: ['comment'], // refetch tags...
 
-    endpoints: (builder) => ({}), // for network call endpoint code splitting
+    endpoints: () => ({}), // for network call endpoint code splitting
 });
 
 export default api;

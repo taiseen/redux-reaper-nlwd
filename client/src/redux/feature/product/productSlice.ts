@@ -13,11 +13,14 @@ const initialState: TProductFilter = {
 
 const productSlice = createSlice({
   name: 'productFilter',
+
   initialState,
+
   reducers: {
     toggleStage: (state) => {
       state.status = !state.status;
     },
+
     setPriceRange: (state, action: PayloadAction<number>) => {
       state.priceRange = action.payload;
     },

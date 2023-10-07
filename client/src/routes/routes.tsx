@@ -1,12 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
-import App from '@/App';
-import Login from '@/pages/Login';
-import NotFound from '@/pages/NotFound';
-import Home from '@/pages/Home';
+import ProductDetails from '@/pages/ProductDetails';
+import PageNotFound from '@/pages/PageNotFound';
+import PrivateRoute from './PrivateRoute';
 import Products from '@/pages/Products';
 import Checkout from '@/pages/Checkout';
 import Signup from '@/pages/Signup';
-import ProductDetails from '@/pages/ProductDetails';
+import Login from '@/pages/Login';
+import Home from '@/pages/Home';
+import App from '@/App';
 
 const routes = createBrowserRouter([
   {
@@ -27,7 +28,11 @@ const routes = createBrowserRouter([
       },
       {
         path: '/checkout',
-        element: <Checkout />,
+        element: (
+          <PrivateRoute>
+            <Checkout />
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -41,7 +46,7 @@ const routes = createBrowserRouter([
   },
   {
     path: '*',
-    element: <NotFound />,
+    element: <PageNotFound />,
   },
 ]);
 

@@ -1,13 +1,14 @@
 'use client';
-
-import * as React from 'react';
-
-import { cn } from '@/lib/utils';
+import { useAppDispatch, useAppSelector } from '@/redux/hook';
+import { loginUser } from '@/redux/feature/user/userSlice';
 import { Button } from '@/components/ui/button';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
+import { useEffect } from 'react';
+import { cn } from '@/lib/utils';
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -17,15 +18,28 @@ interface LoginFormInputs {
 }
 
 export function LoginForm({ className, ...props }: UserAuthFormProps) {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+
+  const dispatch = useAppDispatch();
+  const { user, isLoading } = useAppSelector((state) => state.user);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
 
-  const onSubmit = (data: LoginFormInputs) => {
-    console.log(data);
-  };
+  const onSubmit = (data: LoginFormInputs) =>
+    dispatch(loginUser({ email: data.email, password: data.password }));
+
+  useEffect(() => {
+    if (user.email && !isLoading) {
+      state.path
+        ? navigate(state.path) // for private route
+        : navigate('/');
+    }
+  }, [user.email, isLoading]);
 
   return (
     <div className={cn('grid gap-6', className)} {...props}>
@@ -35,26 +49,29 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
             <Label className="sr-only" htmlFor="email">
               Email
             </Label>
+
             <Input
               id="email"
-              placeholder="name@example.com"
               type="email"
-              autoCapitalize="none"
-              autoComplete="email"
               autoCorrect="off"
+              autoComplete="email"
+              autoCapitalize="none"
+              placeholder="name@example.com"
               {...register('email', { required: 'Email is required' })}
             />
             {errors.email && <p>{errors.email.message}</p>}
+
             <Input
               id="password"
-              placeholder="your password"
               type="password"
               autoCapitalize="none"
               autoComplete="password"
+              placeholder="your password"
               {...register('password', { required: 'Password is required' })}
             />
             {errors.password && <p>{errors.password.message}</p>}
           </div>
+
           <Button>Login with email</Button>
         </div>
       </form>

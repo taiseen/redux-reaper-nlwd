@@ -8,6 +8,7 @@
 - yarn add @reduxjs/toolkit
 - yarn add redux-logger
 - yarn add -D @types/redux-logger
+- yarn add firebase
 
 ```js
 // vite.config.ts
