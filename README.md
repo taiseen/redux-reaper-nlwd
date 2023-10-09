@@ -57,3 +57,5 @@ export type AppDispatch = typeof store.dispatch;
 - reducer slice
 - redux hooks for read/write
 - middleware
+- firebase auth
+- RTK query - api calling system
