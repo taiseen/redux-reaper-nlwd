@@ -59,3 +59,15 @@ export type AppDispatch = typeof store.dispatch;
 - middleware
 - firebase auth
 - RTK query - api calling system
+
+
+* vs code sidebar file navigation indicator
+
+```js
+"workbench.tree.indent": 10,
+    "workbench.tree.renderIndentGuides": "always",
+    "workbench.colorCustomizations": {
+        "tree.indentGuidesStroke": "#ff0000",
+        "tree.inactiveIndentGuidesStroke": "#50beee"
+    },
+```
