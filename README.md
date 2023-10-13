@@ -59,6 +59,7 @@ export type AppDispatch = typeof store.dispatch;
 - middleware
 - firebase auth
 - RTK query - api calling system
+- api query code splitting
 
 
 * vs code sidebar file navigation indicator
